@@ -12,12 +12,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ## A Glance For Parliament Infertility
 In this section, we'll define Parliament Infertility situation (or more precisely, Knesset Infertility), to be _.
 
-\
+
 
 
 ```{r}
-path1 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/KNS_IsraelLaw.csv"
-path2 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/KNS_Bill.csv"
+path1 <- "KNS_IsraelLaw.csv"
+path2 <- "KNS_Bill.csv"
 IsraelLaw <- read.delim(file = path1, header=TRUE, sep = ',')
 Bill <- read.delim(file = path2, header=TRUE, sep = ',')
 

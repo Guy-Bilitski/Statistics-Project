@@ -12,12 +12,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Load files
 ```{r}
-path2 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/P2P_Comma.csv"
-p2p <- read.delim(file = "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/P2P_Comma.csv", header = TRUE, sep = ",")
-knsts <- read.delim(file = "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/Knessets_Comma.csv", header = TRUE, sep = ",")
 
-#p2p <- read.delim(file = "D:/Studies/Year A Sem B/Intro to Statistics/Project/P2P_Comma.csv", #header = TRUE, sep = ",")
-#knsts <- read.delim(file = "D:/Studies/Year A Sem B/Intro to #Statistics/Project/Knessets_Comma.csv", header = TRUE, sep = ",")
+p2p <- read.delim(file = "P2P_Comma.csv", header = TRUE, sep = ",")
+knsts <- read.delim(file = "Knessets_Comma.csv", header = TRUE, sep = ",")
+
 ```
 
 ## Clean P2P
