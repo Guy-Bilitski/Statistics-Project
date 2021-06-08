@@ -1,0 +1,72 @@
+---
+title: "proofForInfertility"
+author: "me"
+date: "18 5 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## A Glance For Parliament Infertility
+In this section, we'll define Parliament Infertility situation (or more precisely, Knesset Infertility), to be _.
+
+\
+
+
+```{r}
+path1 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/KNS_IsraelLaw.csv"
+path2 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/KNS_Bill.csv"
+IsraelLaw <- read.delim(file = path1, header=TRUE, sep = ',')
+Bill <- read.delim(file = path2, header=TRUE, sep = ',')
+
+#@returns the overall number of laws for kns.num Knesset
+lawsNum <- function(IsraelLaw, KNS.num) {
+  loc <- IsraelLaw$KnessetNum == KNS.num
+  loc[is.na(loc)] = FALSE
+  return (sum(loc))
+}
+
+#@returns the overall number of bills for kns.num Knesset
+billsNum <- function(Bill, KNS.num) {
+  loc <- Bill$KnessetNum == KNS.num
+  loc[is.na(loc)] = FALSE
+  return (sum(loc))
+}
+
+
+#@returns laws / bills for kns.num Knesset 
+productivityCalc <- function(Bill, IsraelLaw, KNS.num) {
+  nominator <- lawsNum(IsraelLaw, KNS.num)
+  denominator <- billsNum(Bill, KNS.num)
+  return (nominator / denominator)
+}
+
+#returns plot of productivity ~ knesset num since the N'th knesset.
+plotSince_N_env <- function(Bill, IsraelLaw, N) {
+  productivity <- rep(0, 24-N)
+  knesset <- N:23
+  
+  for (i in knesset) {
+    productivity[i-N] <- productivityCalc(Bill, IsraelLaw, i)
+  }
+  
+    # Calculate local regression
+  ls <- loess(productivity ~ knesset)
+  pr.loess <- predict(ls)
+  plot( productivity ~ knesset )
+  lines(pr.loess~knesset, col="red", lwd=2)
+  productivity
+}
+
+
+
+plotSince_N <- function(N) { 
+  plotSince_N_env(Bill, IsraelLaw, N)
+}
+
+prod <- plotSince_N_env(Bill, IsraelLaw, 1)
+#plotSince_N(1)
+
+```

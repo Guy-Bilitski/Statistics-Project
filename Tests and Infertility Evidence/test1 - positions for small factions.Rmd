@@ -1,0 +1,134 @@
+---
+title: "Test 1 - Positions"
+author: "Yoni Slutzky"
+date: "5/15/2021"
+output: html_document
+---
+
+## Load files
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load files
+```{r}
+path2 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/P2P_Comma.csv"
+p2p <- read.delim(file = "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/P2P_Comma.csv", header = TRUE, sep = ",")
+knsts <- read.delim(file = "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/Knessets_Comma.csv", header = TRUE, sep = ",")
+
+#p2p <- read.delim(file = "D:/Studies/Year A Sem B/Intro to Statistics/Project/P2P_Comma.csv", #header = TRUE, sep = ",")
+#knsts <- read.delim(file = "D:/Studies/Year A Sem B/Intro to #Statistics/Project/Knessets_Comma.csv", header = TRUE, sep = ",")
+```
+
+## Clean P2P
+```{r}
+ord <- order(p2p$PersonID)
+p2p <- p2p[ord, ]
+CleanP2P <- function(kns){
+  # Returns a p2p without non-mks, and without duplicates for Knesset kns
+  cleaned_indices <- !is.na(p2p$FactionID) & (p2p$KnessetNum == as.character(kns))
+  cleaned <- p2p[cleaned_indices,]
+  fixed_indices <- !(duplicated(cleaned$PersonID))
+  fixed <- cleaned[fixed_indices,]
+  fixed
+}
+```
+
+## Get factions IDs in kns
+```{r}
+factions_in_kns <- function(kns_num, small = FALSE) {
+  #Returns FactionIDs during given kns
+  if (small){
+    knsts$Faction.ID[knsts$Knesset == kns_num & knsts$Mandates <= 7]
+  }
+  else {
+    knsts$Faction.ID[knsts$Knesset == kns_num]
+  }
+}
+```
+
+## Persons in faction in kns
+```{r}
+faction_persons <- function(faction_id, kns_num) {
+  #Returns PersonsIDs in a given faction during given kns
+  cleaned_indices <- (p2p$UpdatedFactionID == as.character(faction_id) & p2p$KnessetNum == as.character(kns_num))
+  cleaned_indices <- ifelse(is.na(cleaned_indices) | cleaned_indices == FALSE, FALSE, TRUE)
+  right_kns <- p2p[cleaned_indices,]
+  unique(right_kns$PersonID)
+}
+```
+
+## Positions for a given faction and a given kns
+```{r}
+faction_positions <- function(faction_id, kns_num) {
+  #Returns positions for a given faction during a given kns
+  persons <- faction_persons(faction_id, kns_num)
+  positions <- c()
+  for (person in persons) {
+    positions <- append(positions, p2p$PositionID[p2p$PersonID == as.character(person) 
+                                                  & p2p$KnessetNum == as.character(kns_num)])
+  }
+  positions
+}
+```
+
+## Filter important positions for a given faction during given kns
+```{r}
+faction_relevant_positions <- function(faction_id, relevant_positions, kns_num) {
+  #Filters relevant positions for a given faction during given kns
+  faction_positions <- faction_positions(faction_id, kns_num)
+  faction_positions[faction_positions %in% relevant_positions]
+}
+```
+
+## Create vectors of proportions of positions for small factions for early and later knsts
+```{r}
+relevant_positions <- c(29, 30, 31, 39, 40, 41, 42, 49, 50, 51, 57, 59, 65, 70, 
+                        71, 73, 122, 123, 130, 131, 285078)
+total_positions <- rep(0, 24)
+small_faction_positions <- rep(0, 24)
+for (i in 1:24) {
+  factions <- factions_in_kns(i)
+  for (item in factions) {
+    total_positions[i] <- total_positions[i] + 
+      length(faction_relevant_positions(item, relevant_positions, i))
+  }
+  small_factions <- factions_in_kns(i, TRUE)
+  for (item in small_factions) {
+    small_faction_positions[i] <- small_faction_positions[i] + 
+      length(faction_relevant_positions(item, relevant_positions, i))
+  }
+}
+later_knsts_props <- (small_faction_positions/total_positions)[21:24]
+early_knsts_props <- (small_faction_positions/total_positions)[1:20]
+```
+
+## Boxplots of proportions in early and later knsts
+```{r}
+mat <- cbind("Early Knessets" = early_knsts_props, "Late Knessets" = later_knsts_props)
+boxplot(mat, main = "התפלגות פרופורציית התפקידים של גוש המפלגות הקטנות (1)", ylab = "Proportions", )
+#points(c(mean(early_knsts_props),mean(later_knsts_props)), pch = 2, col = 2)
+```
+
+
+## Wilcoxon rank sum test
+```{r}
+wilcox.test(x = later_knsts_props, y = early_knsts_props, alternative = "greater", exact = TRUE, 
+            correct = FALSE, conf.int = TRUE)
+
+
+all_permutations <- combn(rank(c(early_knsts_props, later_knsts_props)), 4)
+w_null3 <- apply(all_permutations, 2, sum)
+qqnorm(w_null3, main = "Normal Q-Q Plot - Test 1")
+```
+
+## Plot empiric proportions
+```{r}
+plot(small_faction_positions/total_positions, xaxt = 'n', main = "Empiric proportions per Knesset",
+     xlab = "Knesset", ylab = "Proportion of positions for smalls",
+     col = c(rep(1,20), rep(2,4)))
+axis(1, at = 1:24, las = 2)
+```
+
+
+
