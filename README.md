@@ -25,7 +25,10 @@
 
 כותבי הפרויקט:
 אחרק שגיא - sagiahrac@mail.tau.ac.il
+
 איטח ירון ראובן - yaronreubeni@mail.tau.ac.il
+
 ביליצקי גיא - guybilitski@mail.tau.ac.il
+
 סלוצקי יונתן אריאל - slutzky1@mail.tau.ac.il
 
