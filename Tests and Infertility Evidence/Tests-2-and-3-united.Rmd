@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Tests 2 & 3
 
 ```{r}
-path2 <- "C:/Users/GIGABAYT/Desktop/projectstat/CSVs/Knessets.csv"
+path2 <- "Knessets.csv"
 Knessets <- read.delim(file = path2, header=TRUE, sep = ',')
 
 # Calculates the size of Knesset members in Coalition, among Small Factions,
