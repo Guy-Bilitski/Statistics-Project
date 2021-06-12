@@ -1,7 +1,7 @@
 ---
 title: "Tests Data"
-author: "me"
-date: "31 5 2021"
+authors: "Guy, Yoni, Sage, and Yaron"
+date: "12.6.2021"
 output: html_document
 ---
 
