@@ -106,7 +106,7 @@ early_knsts_props <- (small_faction_positions/total_positions)[1:20]
 #### Boxplots of proportions in early and later knsts
 ```{r}
 mat <- cbind("1-20" = early_knsts_props, "21-24" = later_knsts_props)
-boxplot(mat, main = "Small Factions Positions Proportion  (1)", ylab = "פרופורציה", )
+boxplot(mat, main = "Small Factions Positions Proportion  (1)", ylab = "Proportion", )
 #points(c(mean(early_knsts_props),mean(later_knsts_props)), pch = 2, col = 2)
 ```
 
