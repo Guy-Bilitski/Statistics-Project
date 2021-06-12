@@ -105,8 +105,8 @@ early_knsts_props <- (small_faction_positions/total_positions)[1:20]
 
 #### Boxplots of proportions in early and later knsts
 ```{r}
-mat <- cbind("Early Knessets" = early_knsts_props, "Late Knessets" = later_knsts_props)
-boxplot(mat, main = "התפלגות פרופורציית התפקידים של גוש המפלגות הקטנות (1)", ylab = "Proportions", )
+mat <- cbind("התקופה שלפני השיתוק" = early_knsts_props, "תקופת השיתוק" = later_knsts_props)
+boxplot(mat, main = "התפלגות פרופורציית התפקידים של גוש המפלגות הקטנות (1)", ylab = "פרופורציה", )
 #points(c(mean(early_knsts_props),mean(later_knsts_props)), pch = 2, col = 2)
 ```
 
@@ -181,8 +181,8 @@ smallRate_OutOfCoalition <- smallCount_InCoalition / smallCount_InKnesset
 ```{r}
 boxplot(smallCount_InKnesset[1:20],
         smallCount_InKnesset[21:24],
-        main = 'התפלגות מספר חברי המפלגות הקטנות מתוך הכנסת (2)', ylab = 'Knesset Members',
-        names = c("Eearly Knessets", "Late Knessets"))
+        main = 'התפלגות מספר חברי המפלגות הקטנות מתוך הכנסת (2)', ylab = 'חברי כנסת',
+        names = c("התקופה שלפני השיתוק", "תקופת השיתוק"))
 ```
 
 \
@@ -250,7 +250,7 @@ smallRate_New <- smallCount_InCoalition / coalition_Sizes
 ```{r}
 boxplot(smallRate_New[1:20], smallRate_New[21:24],
         main = 'התפלגות פרופורציית גודל המפלגות הקטנות מתוך הקואליציה (3)',
-        names = c("Early Knessets", "Late Knessets"), ylab ='Proportions')
+        names = c("התקופה שלפני השיתוק", "תקופת השיתוק"), ylab ='פרופורציה')
 #points(c(mean(smallRate_New[1:20]),mean(smallRate_New[21:24])), pch = 2, col = 2)
 ```
 
