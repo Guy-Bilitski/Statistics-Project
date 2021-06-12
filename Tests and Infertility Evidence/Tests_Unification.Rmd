@@ -206,7 +206,7 @@ abline(0,0)
 
 \newpage
 
-####Wilcoxon Rank Sum test for size mean:
+#### Wilcoxon Rank Sum test for size mean:
 ```{r}
 kns_1.to.20 <- smallCount_InKnesset[1:20]
 kns_21.to.24 <- smallCount_InKnesset[21:24]
@@ -274,7 +274,7 @@ abline(0,0)
 
 \newpage
 
-####Wilcoxon Rank Sum test for proportion diff:
+#### Wilcoxon Rank Sum test for proportion diff:
 ```{r}
 kns_1.to.20 <- smallRate_New[1:20]
 kns_21.to.24 <- smallRate_New[21:24]
