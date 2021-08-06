@@ -38,7 +38,7 @@
 
 
 <p align="right"> <b>
-כותבי הפרויקט
+מחברי הפרויקט
  </b>
 <p align="right">
 אחרק שגיא - sagiahrac@mail.tau.ac.il
